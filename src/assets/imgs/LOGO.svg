@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 427 137">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #474233;
+      }
+
+      .cls-1 {
+        font-size: 90px;
+        font-family: TwCenMT-Condensed, Tw Cen MT;
+      }
+
+      .cls-2 {
+        font-size: 40px;
+        font-family: Cambria;
+      }
+    </style>
+  </defs>
+  <g id="LOGO" transform="translate(-35 -15)">
+    <text id="EXPRESSO_" data-name="EXPRESSO
+" class="cls-1" transform="translate(35 15)"><tspan x="0" y="74">EXPRESSO</tspan></text>
+    <text id="Stock_Wallet" data-name="Stock Wallet" class="cls-2" transform="translate(99 97)"><tspan x="0" y="38">Stock Wallet</tspan></text>
+  </g>
+</svg>
