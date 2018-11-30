@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+
+<div class="login-page">
+
+  <mdb-card class="login-box">
+
+    <mdb-card-header class="info-color white-text text-center py-4">
+      <h5>
+        <strong>Sign in</strong>
+      </h5>
+    </mdb-card-header>
+
+
+
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5 pt-0">
+
+      <!-- Form -->
+      <form class="text-center" style="color: #757575;" (ngSubmit)="submit(f)" #f="ngForm" >
+
+        <!-- Email -->
+        <div class="md-form">
+          <input id="username" type="text" name="username" ngModel class="form-control" mdbInputDirective [mdbValidate]="false" required>
+          <label for="username">Username</label>
+        </div>
+
+        <!-- Password -->
+        <div class="md-form">
+          <input id="password" type="password" name="password" ngModel  class="form-control" mdbInputDirective [mdbValidate]="false" required>
+          <label for="password" >Password</label>
+        </div>
+
+        <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
+                type="submit" [disabled]="!f.valid">Sign in</button>
+
+        <!-- Register -->
+        <p>Not a member?
+          <a href="register">Register</a>
+        </p>
+      </form>
+      <!-- Form -->
+
+    </mdb-card-body>
+
+  </mdb-card>
+
+</div>
+
+<div mdbModal #successModal="mdbModal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="mySuccessModal"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="successModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="align-text-center">{{loginMessage}}</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close" (click)="successModal.hide()" mdbWavesEffect>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

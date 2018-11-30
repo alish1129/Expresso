@@ -1,0 +1,47 @@
+<div class="navBar" >
+  <mdb-navbar SideClass="navbar navbar-expand-lg" >
+
+    <mdb-navbar-brand><a class="navbar-brand ml-1" href="#">
+      <img class="logo" src="../../assets/imgs/LOGO.svg" height="50" width= "200" alt="Logo">
+    </a></mdb-navbar-brand>
+
+    <links>
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/portfolio">Portfolio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect routerLink="/watchlist">Watchlist</a>
+        </li>
+        <!--<li class="nav-item">-->
+          <!--<a class="nav-link waves-light" mdbWavesEffect routerLink="forum">Forum</a>-->
+        <!--</li>-->
+      </ul>
+      <!-- Search form -->
+
+      <ul id="login-register" class="navbar-nav mr-sm-2" [hidden]="userLoggedIn">
+        <li id="login" class="nav-item mr-sm-2" >
+          <a class="nav-link waves-light" routerLink="/signin" >Login</a>
+        </li>
+        <li id="register" class="nav-item mr-sm-2" >
+          <a class="nav-link waves-light" routerLink="/register">Register</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mr-sm-2" [hidden]="!userLoggedIn">
+        <li id="user" class="nav-item mr-sm-2"  >
+          <a class="nav-link waves-light" style="color: white; font-size: 16px">Welcome, {{user}}!</a>
+        </li>
+
+        <li id="logout" class="nav-item "  >
+          <a class="nav-link waves-light" style="color: white;" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </links>
+
+  </mdb-navbar>
+
+</div>

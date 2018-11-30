@@ -1,0 +1,54 @@
+page-home {
+
+
+  .grid{
+    padding: 0px;
+    .row:first-child{
+      padding: 0;
+      height: 35px;
+      background: linear-gradient(to bottom, color($colors, secondary-lighter) 50%, color($colors, gray)) !important;
+    }
+    .row{
+      margin: 0;
+      padding: 10px;
+      height: 80px;
+      overflow: hidden;
+     }
+  }
+
+  .col{
+    text-align: center;
+  }
+
+    p{
+      border-left: 1px solid #d5d5d5;
+      text-align: center;
+      align-content: center;
+    }
+  }
+
+  .stockRow{
+    background: color($colors, secondary-lighter);
+    padding: 0;
+    .col:first-child{
+      text-align: left;
+      font-size: 15px;
+      max-width: 250px !important;
+
+      h5{
+        padding: 0;
+        margin: 0;
+      }
+      .label{
+        margin: 0;
+        color: #757575;
+      }
+    }
+    .priceCol{
+      max-width: 105px;
+      float: right;
+      font-size: 20px;
+      align-content: end;
+
+    }
+}

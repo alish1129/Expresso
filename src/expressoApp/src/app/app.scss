@@ -1,0 +1,33 @@
+// http://ionicframework.com/docs/theming/
+
+.toolbar-background {
+  background: linear-gradient(to bottom ,rgb(21, 100, 191), rgb(22, 143, 247));
+}
+
+.success-toaster {
+  .toast-wrapper {
+    background: color($colors, green)
+  }
+}
+
+.failure-toaster {
+  .toast-wrapper {
+    color: color($colors, green)
+  }
+}
+
+.toolbar {
+  .icon {
+    font-size: 22px;
+    color: color($colors, light)
+  }
+  span{
+    color: color($colors, light)
+  }
+}
+
+.toolbar-title {
+  font-size: 1.3em;
+  font-weight: 800;
+  color: color($colors, light);
+}

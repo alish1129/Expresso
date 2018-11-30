@@ -1,0 +1,155 @@
+<app-navbar></app-navbar>
+
+<div class="row justify-content-end px-5">
+  <button class="btn primary float-right" mdbBtn color="danger" (click)="deleteModal.show()" mdbWavesEffect
+          [disabled]="portfolio.length<1">Remove Stock
+  </button>
+  <button class="btn primary float-right" mdbBtn color="primary" (click)="basicModal.show()" mdbWavesEffect>Add Stock
+  </button>
+</div>
+
+<div class="row" *ngIf="pageLoaded">
+  <div class="tableDiv">
+    <table class="table table">
+      <thead>
+      <tr class="table-header">
+        <th class="name" scope="col"><strong>Name <i class="fa fa-sort"></i></strong></th>
+        <th class="ticker" scope="col"><strong>Ticker <i class="fa fa-sort"></i></strong>
+        </th>
+        <th class="lastprice" scope="col"><strong> Price Paid <i
+          class="fa fa-sort"></i></strong></th>
+        <th class="perChange" scope="col"><strong>Quantity <i
+          class="fa fa-sort"></i></strong></th>
+        <th class="high" scope="col"><strong>Total Investment <i
+          class="fa fa-sort"></i></strong></th>
+        <th class="low" scope="col"><strong>Current Value <i
+          class="fa fa-sort"></i></strong></th>
+        <th class="marketcap" scope="col"><strong>P/L in USD <i
+          class="fa fa-sort"></i></strong></th>
+        <th class="totalsupply" scope="col"><strong>P/L in Percent <i
+          class="fa fa-sort"></i></strong></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="pointerCursor" *ngFor="let stock of portfolio" (click)="stockDetails(stock.ticker)">
+        <td class="name">{{stock.name}}</td>
+        <td class="ticker font-weight-bold">{{stock.ticker}}</td>
+        <td class="pricePaid">${{stock.price}}</td>
+        <td class="quantity font-weight-bold">{{stock.margin}}</td>
+        <td class="totalInvestment">${{stock.bought.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+        <td class="currentPrice">${{stock.priceToday.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+        <!--<td class="graph.value"></td>-->
+        <td class="ValueInUSD" [appPercentChange]="stock.difference">${{stock.difference.toLocaleString(undefined,
+          {maximumFractionDigits: 2})}}
+        </td>
+        <td class="valueInPercent" [appPercentChange]="((stock.difference/stock.bought)*100)">
+          {{((stock.difference/stock.bought)*100).toLocaleString(undefined, {maximumFractionDigits: 2})}}%
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-bar-chart></app-bar-chart>
+
+
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Add Stock to Portfolio</h4>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addToPortfolio(f)" #f="ngForm">
+
+          <div>
+            <label for="stock">Select a stock to add to your portfolio: </label>
+            <br>
+            <select id="stock" placeholder="Stock to Add" [(ngModel)]="tickerToAdd" name="stock">
+              <option [value]="" disabled selected>Select a Stock</option>
+              <option *ngFor="let stock of stocks" [value]="stock.ticker">
+                {{stock.name}}
+              </option>
+            </select>
+          </div>
+          <div class="md-form">
+            <input name="quantity" id="quantity" type="number" ngModel required [mdbValidate]="false" mdbInputDirective
+                   class="form-control">
+            <label for="quantity">Total number of stock bought: </label>
+          </div>
+          <div>
+            <label for="DOP">Date of Purchase:</label>
+            <input name="DOP" id="DOP" type="date" ngModel [mdbValidate]="false" mdbInputDirective class="form-control">
+          </div>
+          <div class="md-form">
+            <input name="pricePaid" id="Price" type="number" ngModel [mdbValidate]="false" mdbInputDirective
+                   class="form-control">
+            <label for="Price">Price Paid Per Stock (USD):</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+                    (click)="basicModal.hide()" mdbWavesEffect>Close
+            </button>
+            <button mdbBtn color="primary" class="relative waves-light" mdbWavesEffect type="submit">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div mdbModal #deleteModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myDeleteModal" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align: center">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="deleteModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h3 class="modal-title w-100" id="myDeleteModal"><strong>Select a Stock to Remove</strong></h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <select placeholder="Stock to remove" [(ngModel)]="tickerToRemove" name="stock" class="select">
+            <option class="options" [value]="" disabled selected>Select a Stock</option>
+            <option class="options" *ngFor="let stock of portfolio" [value]="stock.ticker">
+              {{stock.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn waves-light btn-danger" aria-label="Close" (click)="deleteModal.hide()"
+                mdbWavesEffect>Cancel
+        </button>
+        <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
+                (click)="removeStock()">Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div mdbModal #successModal="mdbModal" class="modal fade right" tabindex="-1" role="dialog"
+     aria-labelledby="mySuccessModal"
+     aria-hidden="true">
+  <div class="modal-dialog modal-side modal-bottom-left" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-left" aria-label="Close" (click)="successModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="modalLabel">{{message}}</h4>
+      </div>
+      <div class="modal-body">
+        Successfully Added!
+      </div>
+    </div>
+  </div>
+</div>
+

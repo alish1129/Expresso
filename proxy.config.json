@@ -1,7 +1,0 @@
-{
-  "/data/*":{
-    "target": "https://api.iextrading.com/1.0",
-    "secure": false,
-    "logLevel": "debug"
-  }
-}

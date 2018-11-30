@@ -1,0 +1,130 @@
+<app-navbar></app-navbar>
+<div class="details" *ngIf="pageLoaded">
+  <div class="p-4">
+    <button type="button" mdbBtn class="relative waves-light btn-default float-right" (click)="basicModal.show()"
+            mdbWavesEffect [disabled]="!userLoggedIn">Add to Watchlist
+    </button>
+    <button class="btn btn-primary float-right" type="button" (click)="portfolioModal.show()" [disabled]="!userLoggedIn">Add to Portfolio</button>
+  </div>
+  <h1>{{stock.companyName}}</h1>
+  <div class="row">
+    <div class="col justify-content-center">
+      <app-graph [datasetlow]="graphDataLow" [dataLabel]="graphLabel"></app-graph>
+      <div class="news card-header border-light" style="font-size: 22px;position: sticky">Related News</div>
+      <div class="news card border-light">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item p-0" *ngFor="let article of news">
+            <div class="card-body">
+              <h5 class="card-title" style="font-size:20px">{{article.headline}}</h5>
+              <p class="card-text">{{article.summary}}</p>
+              <a class="card-link" style="font-size: 14px" [href]="article.url" target="_blank">Read
+                more...<strong></strong></a>
+              <div class="chip">
+                <p class="card-text"><i>@Source: {{article.source}}</i></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+
+      <h3>Company Info:</h3>
+
+      <ul>
+        <li><strong>Company Name: </strong> {{company.companyName}}</li>
+        <li><strong>Description: </strong>{{company.description}}</li>
+        <li><strong>Sector: </strong> {{company.sector}}</li>
+        <li><strong>Symbol: </strong> {{company.symbol}}</li>
+        <li><strong>CEO:</strong> {{company.CEO}}</li>
+        <li><strong>Website: </strong><a [href]="company.website" target="_blank">{{company.website}}</a></li>
+        <li><strong>Industry: </strong>{{company.industry}}</li>
+        <li><strong>Primary Exchange: </strong> {{stock.primaryExchange}}</li>
+        <li><strong>Market Cap:</strong> ${{stock.marketCap.toLocaleString()}}</li>
+        <li><strong>Tags: </strong><span class="badge grey" style="height: 20px; margin: 0 2px"
+                                         *ngFor="let tag of tags">{{tag}}</span></li>
+      </ul>
+
+      <h3>Stock Stats:</h3>
+      <ul>
+        <li><strong>Price: </strong>${{stock.latestPrice.toLocaleString()}}</li>
+        <li><strong>Today's Highest: </strong> ${{stock.high}}</li>
+        <li><strong>Today's Lowest: </strong> ${{stock.low}}</li>
+        <li><strong>Percentage Change: </strong><strong [appPercentChange]="stock.changePercent">{{(stock.changePercent*100).toLocaleString()}}%</strong>
+        </li>
+        <li><strong>52 Week Highest: </strong> ${{stock.week52High}}</li>
+        <li><strong>52 Week Lowest: </strong> ${{stock.week52Low}}</li>
+        <li><strong>Previous Close: </strong>{{stock.previousClose}}</li>
+        <li><strong>Total Average Volume: </strong>{{stock.avgTotalVolume.toLocaleString()}}</li>
+        <li><strong>Last Updated: </strong>{{stock.latestUpdate | timeDate}}</li>
+        <li><strong>Delayed Price: </strong>${{stock.delayedPrice }}</li>
+        <li><strong>Delayed Price Time: </strong>{{stock.delayedPriceTime | timeDate}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="watchlistModel">
+    <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title w-100" id="myModalLabel">Add to Watchlist?</h4>
+          </div>
+          <div class="modal-body">
+            Are you sure you would like to add <strong>{{stock.companyName}}</strong> to your Watchlist?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn waves-light btn-danger" aria-label="Close" (click)="basicModal.hide()"
+                    mdbWavesEffect>Cancel
+            </button>
+            <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
+                    (click)="addToWatchlist(stock.ticker)">Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div mdbModal #portfolioModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right" aria-label="Close" (click)="portfolioModal.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h3>Add {{company.companyName}}'s Stock to Portfolio?</h3>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addToPortfolio(f)" #f="ngForm">
+            <div class="md-form">
+              <input name="quantity" id="quantity" type="number" ngModel required [mdbValidate]="false" mdbInputDirective
+                     class="form-control">
+              <label for="quantity">Total number of stock bought: </label>
+            </div>
+            <div>
+              <label for="DOP">Date of Purchase:</label>
+              <input name="DOP" id="DOP" type="date" ngModel [mdbValidate]="false" mdbInputDirective class="form-control">
+            </div>
+            <div class="md-form">
+              <input name="pricePaid" id="Price" type="number" ngModel [mdbValidate]="false" mdbInputDirective
+                     class="form-control">
+              <label for="Price">Price Paid Per Stock (USD):</label>
+            </div>
+            <div class="modal-footer">
+              <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
+                      (click)="portfolioModal.hide()" mdbWavesEffect>Close
+              </button>
+              <button mdbBtn color="primary" class="relative waves-light" mdbWavesEffect type="submit">Add to Portfolio</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+

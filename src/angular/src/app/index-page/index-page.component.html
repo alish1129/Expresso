@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<form class="form-inline waves-light" mdbWavesEffect>
+
+  <div class="searchbar" *ngIf="pageLoaded">
+    <input class="form-control" type="text" placeholder="Search stock" aria-label="Search"
+           (input)="searchStock($event)" (click)="toggleDropDown()">
+    <div class="dropsearch" *ngIf="showDropDown">
+      <div class="stocksAfterSearch" *ngFor="let stock of searchResults" (click)="onSearchResultsClick(stock.ticker)">
+        {{stock.name}}
+      </div>
+      <div class="stocksAfterSearch" *ngIf="searchResults.length==0 && searchInput.length!=0">
+        No Stock Found
+      </div>
+    </div>
+
+  </div>
+</form>
+<div class="tableDiv" *ngIf="pageLoaded">
+  <table class="table">
+    <thead>
+    <tr class="table-header">
+      <!--<th class="ranking" scope="col">#</th>-->
+      <th class="name" scope="col" (click)="sortString('name')">Name <i class="fa fa-sort"></i></th>
+      <th class="ticker" scope="col" (click)="sortString('ticker')">Ticker <i class="fa fa-sort"></i></th>
+      <th class="lastprice" scope="col" (click)="sortNumber('price')">Last Price <i class="fa fa-sort"></i></th>
+      <th class="perChange" scope="col" (click)="sortNumber('p_change')">% <i class="fa fa-sort"></i></th>
+      <th class="high" scope="col" (click)="sortNumber('max')">24 high <i class="fa fa-sort"></i></th>
+      <th class="low" scope="col" (click)="sortNumber('min')">24 low <i class="fa fa-sort"></i></th>
+      <th class="marketcap" scope="col" (click)="sortNumber('total_market_cap')">Market Cap <i class="fa fa-sort"></i></th>
+      <th class="totalsupply" scope="col" (click)="sortNumber('total_stock_supply')">Total Supply <i class="fa fa-sort"></i></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="pointerCursor" *ngFor="let stock of stocks | paginate: {itemsPerPage:25, currentPage: p}"
+        (click)="onSearchResultsClick(stock.ticker)">
+      <td class="name">{{stock.name}}</td>
+      <td class="ticker font-weight-bold">({{stock.ticker}})</td>
+      <td class="lastprice">${{stock.price.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+      <td class="perChange font-weight-bold" [appPercentChange]="stock.p_change">
+        {{(stock.p_change*100).toLocaleString()}}%
+      </td>
+      <td class="high">${{stock.max.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+      <td class="low">${{stock.min.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+      <td class="marketcap">${{stock.total_market_cap.toLocaleString(undefined, {maximumFractionDigits: 2})}}</td>
+      <td class="totalsupply">{{stock.total_stock_supply.toLocaleString()}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination justify-content-center align-middle" *ngIf="pageLoaded">
+  <pagination-controls (pageChange)="p =$event" maxSize="12"></pagination-controls>
+</div>

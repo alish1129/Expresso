@@ -1,0 +1,43 @@
+.details{
+  max-width: 100%;
+  margin: 0 10px 50px 10px;
+}
+.col:first-child{
+  max-height: 100% !important;
+}
+app-graph{
+  min-width: 500px;
+}
+
+app-graph.canvas{
+  min-width: 500px;
+}
+ul{
+  li{
+    list-style: none;
+    font-size: 18px;
+  }
+}
+
+div.news{
+  padding: 20px;
+  width: 100%;
+  max-height: 500px;
+  overflow: scroll;
+  background: #f4f4f4;
+}
+
+div.article-card {
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+  margin-bottom: 5px;
+}
+
+div.card-body{
+  padding: 5px;
+}
+
+li.list-group-item{
+  margin-bottom: 10px;
+}

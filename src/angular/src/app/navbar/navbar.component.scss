@@ -1,0 +1,34 @@
+div.navBar {
+  display: block;
+  width: 100%;
+  font-family: Cambria, Arial, sans-serif;
+  background: linear-gradient(to bottom ,rgb(21, 100, 191), rgb(22, 143, 247));
+  font-size: 1.2em;
+}
+
+a {
+  color: #ebebeb;
+}
+div.container {
+  margin: 0 !important;
+}
+
+ul#login-register {
+  font-size: 16px;
+  float: end;
+  margin: 0 0 0 200px;
+}
+
+li.nav-item:hover {
+  background: linear-gradient(to bottom ,rgb(21, 100, 191), rgb(110, 173, 247));
+}
+
+li.nav-item{
+  align-content: center;
+  border-left: 2px solid rgba(250,250,250,0.2);
+  padding: 0 20px;
+}
+
+nav.navbar.navbar-expand-lg{
+  width: 100% !important;
+}

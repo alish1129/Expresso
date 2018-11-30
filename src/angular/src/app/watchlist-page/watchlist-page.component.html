@@ -1,0 +1,133 @@
+<app-navbar></app-navbar>
+
+<div class="watchlist" *ngIf="pageLoaded">
+  <div class="row justify-content-end px-5">
+    <button type="button" mdbBtn class="relative waves-light float-right" color="danger" (click)="deleteModal.show()"
+            mdbWavesEffect> Remove Stock
+    </button>
+    <button type="button" mdbBtn class="relative waves-light btn-default float-right" (click)="basicModal.show()"
+            mdbWavesEffect>Add Stock
+    </button>
+  </div>
+  <!--Watchlist Model-->
+  <div class="watchlistModel">
+    <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="text-align: center">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h3 class="modal-title w-100" id="myModalLabel"><strong>Select a Stock to Add</strong></h3>
+          </div>
+          <div class="modal-body">
+            <div>
+                <select  placeholder="Stock to Add" [(ngModel)]="tickerToAdd" name="stock" class="select">
+                  <option class="options" [value]="" disabled selected>Select a Stock</option>
+                  <option class="options" *ngFor="let stock of stocks" [value]="stock.ticker">
+                    {{stock.name}}
+                  </option>
+                </select>
+            </div>
+            <div *ngIf="">
+              Selected stock is already in watchlist
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn waves-light btn-danger" aria-label="Close" (click)="basicModal.hide()"
+                    mdbWavesEffect>Cancel
+            </button>
+            <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
+                    (click)="addStockToWatchlist()">Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div mdbModal #deleteModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myDeleteModal" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="text-align: center">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="deleteModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h3 class="modal-title w-100" id="myDeleteModal"><strong>Select a Stock to Remove</strong></h3>
+          </div>
+          <div class="modal-body">
+            <div>
+              <select  placeholder="Stock to remove" [(ngModel)]="tickerToRemove" name="stock" class="select">
+                <option class="options" [value]="" disabled selected>Select a Stock</option>
+                <option class="options" *ngFor="let stock of watchlist" [value]="stock.ticker">
+                  {{stock.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn waves-light btn-danger" aria-label="Close" (click)="deleteModal.hide()"
+                    mdbWavesEffect>Cancel
+            </button>
+            <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
+                    (click)="removeStock()">Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tableDiv">
+    <table class="table table">
+      <thead>
+      <tr class="table-header">
+        <th class="name" scope="col" (click)="sortString('name')"><strong>Name <i class="fa fa-sort"></i></strong></th>
+        <th class="ticker" scope="col" (click)="sortString('ticker')"><strong>Ticker <i class="fa fa-sort"></i></strong></th>
+        <th class="lastprice" scope="col" (click)="sortNumber('price')"><strong>Price <i class="fa fa-sort"></i></strong></th>
+        <th class="perChange" scope="col" (click)="sortNumber('p_change')"><strong>Percent Change <i class="fa fa-sort"></i></strong></th>
+        <th class="high" scope="col" (click)="sortNumber('max')"><strong>24 hours high <i class="fa fa-sort"></i></strong></th>
+        <th class="low" scope="col" (click)="sortNumber('min')"><strong> 24 hours low <i class="fa fa-sort"></i></strong></th>
+        <!--<th class="graph" scope="col"><strong>Price Chart 1d</strong></th>-->
+        <th class="marketcap" scope="col" (click)="sortNumber('total_market_cap')"><strong>Market Cap <i class="fa fa-sort"></i></strong></th>
+        <th class="totalsupply" scope="col" (click)="sortNumber('total_stock_supply')"><strong>Total Supply <i class="fa fa-sort"></i></strong></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="pointerCursor" *ngFor="let stock of watchlist" (click)="options(stock.ticker)">
+        <td class="name-value">{{stock.name}}</td>
+        <td class="ticker.value font-weight-bold">{{stock.ticker}}</td>
+        <td class="lastprice.value">${{stock.price.toLocaleString()}}</td>
+        <td class="perChange.value font-weight-bold" appPercentChange="{{(stock.p_change*100).toLocaleString()}}">
+          {{(stock.p_change*100).toLocaleString()}}%
+        </td>
+        <td class="high.value">${{stock.max}}</td>
+        <td class="low.value">${{stock.min}}</td>
+        <!--<td class="graph.value"></td>-->
+        <td class="marketcap.value">${{stock.total_market_cap.toLocaleString()}}</td>
+        <td class="totalsupply.value">{{stock.total_stock_supply.toLocaleString()}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div mdbModal #successModal="mdbModal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="mySuccessModal"
+     aria-hidden="true">
+  <div class="modal-dialog modal-side modal-bottom-left" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-left" aria-label="Close" (click)="successModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="modalLabel">{{message}}</h4>
+      </div>
+      <div class="modal-body">
+        Successfully Added!
+      </div>
+    </div>
+  </div>
+</div>
