@@ -5,5 +5,5 @@
 - Also allows user to keep an eye on the stocks they are interested in.
 
 Technologies used: 
-Frontend = Angular 6, MDBootstrap, Typescript, Chart.js
-&Backend =  Java, Spring Framework, MySQL Workbench, Hibernate, Maven
+- Frontend = Angular 6, MDBootstrap, Typescript, Chart.js
+- Backend =  Java, Spring Framework, MySQL Workbench, Hibernate, Maven
