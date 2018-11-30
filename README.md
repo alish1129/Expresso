@@ -6,4 +6,4 @@
 
 Technologies used: 
 Frontend = Angular 6, MDBootstrap, Typescript, Chart.js
-Backend =  Java, Spring Framework, MySQL Workbench, Hibernate, Maven
+&Backend =  Java, Spring Framework, MySQL Workbench, Hibernate, Maven
